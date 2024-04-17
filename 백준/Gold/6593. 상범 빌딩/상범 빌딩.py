@@ -9,7 +9,7 @@ def bfs(start, end) :
     que = deque()
     que.append((0, *start))
     z, y, x = start
-    visited[z][y][x] = True
+    arr[z][y][x] = '#'
     while que :
         cnt, z, y, x = que.popleft()
         if (z, y, x) == end :
@@ -18,9 +18,9 @@ def bfs(start, end) :
             dz = z + direct_z[i]
             dy = y + direct_y[i]
             dx = x + direct_x[i]
-            if dz < 0 or dy < 0 or dx < 0 or dz >= L or dy >= R or dx >= C or arr[dz][dy][dx] == '#' or visited[dz][dy][dx] : continue
+            if dz < 0 or dy < 0 or dx < 0 or dz >= L or dy >= R or dx >= C or arr[dz][dy][dx] == '#' : continue
             que.append((cnt+1, dz, dy, dx))
-            visited[dz][dy][dx] = True
+            arr[dz][dy][dx] = '#'
     return -1
 
 
@@ -30,7 +30,6 @@ while True :
     if L == R == C == 0 : break
     
     arr = []
-    visited = [[[False] * C for _ in range(R)] for _ in range(L)]
     
     for i in range(L) :
         floor = []
