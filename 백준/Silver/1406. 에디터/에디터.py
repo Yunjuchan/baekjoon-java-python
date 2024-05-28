@@ -1,5 +1,7 @@
 from collections import deque
-front = deque(input())
+import sys
+input = sys.stdin.readline
+front = deque(input().rstrip())
 back = deque()
 
 n = int(input())
@@ -16,7 +18,7 @@ def edit(command, char="") :
         if back :
             char = back.popleft()
             front.append(char)
-            
+
     if command == "B" :
         if front :
             front.pop()
