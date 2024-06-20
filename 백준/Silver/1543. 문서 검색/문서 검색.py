@@ -1,0 +1,6 @@
+W=input()
+S=input()
+N=len(W)
+W=W.replace(S,'')
+L=len(S)
+print((N-len(W))//L)
