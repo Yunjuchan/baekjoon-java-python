@@ -13,22 +13,21 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         char[] E;
         E = st.nextToken().toCharArray();
-        char[] B = new char[A.length];
+        
+        StringBuilder sb = new StringBuilder();
         for (int i=0; i<A.length; i++) {
             if (A[i] == ' ') {
-                System.out.print(" ");
+                sb.append(' ');
                 continue;
             }
-            int idx = E[i % E.length] - 96;
-            int next = A[i] - idx;
+            int next = A[i] - (E[i % E.length] - 96);
 //            System.out.println("idx: " + idx + " next: " + next);
             if (next < 97) {
-                B[i] = (char) (next + 26);
+                sb.append((char) (next + 26));
             } else {
-                B[i] = (char) (next);
+                sb.append((char) (next));
             }
-            System.out.print(B[i]);
         }
-
+        System.out.println(sb.toString());
     }
 }
