@@ -2,7 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int N, M, minX, minY, maxX, maxY;
+    static int N, M;
+    static long minX, minY, maxX, maxY;
     static void search(int x, int y, int d) {
         if (d == 1) {
             minY = maxY = y;
