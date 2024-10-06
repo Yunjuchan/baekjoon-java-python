@@ -5,6 +5,7 @@ public class Main {
     static char[] isIn;
     static boolean[] isVisited;
     static List<List<Integer>> adj;
+    static long cnt;
     static long result;
 
     static void dfs(int i) {
@@ -12,12 +13,11 @@ public class Main {
             if (isVisited[next]) {
                 continue;
             }
-            if (isIn[next] == '1') {
-                result++;
-            } else {
-                isVisited[i] = true;
+            if (isIn[next] == '0') {
+                isVisited[next] = true;
                 dfs(next);
-                isVisited[i] = false;
+            } else {
+                cnt++;
             }
         }
     }
@@ -46,12 +46,25 @@ public class Main {
             adj.get(u).add(v);
             adj.get(v).add(u);
         }
-
+        cnt = 0;
         for (int i=1; i<=N; i++) {
-            if (isIn[i] == '1') {
+            if (isVisited[i]) {
+                continue;
+            }
+            if (isIn[i] == '0') {
+                cnt = 0;
+                isVisited[i] = true;
                 dfs(i);
+                result += cnt * (cnt-1);
+            } else {
+                for (int next : adj.get(i)) {
+                    if (isIn[next] == '1') {
+                        result++;
+                    }
+                }
             }
         }
+
         System.out.println(result);
     }
 }
