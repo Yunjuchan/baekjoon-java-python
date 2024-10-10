@@ -4,66 +4,28 @@ import java.util.*;
 public class Main {
 
     static int N;
-    static int result = Integer.MAX_VALUE;
     static int[][] A;
+    static int result = Integer.MAX_VALUE;
 
-    static int[][] changeR(int r, int[][] arr) {
+    // 행을 뒤집는 메서드
+    static void flipRow(int[][] arr, int r) {
         for (int i = 0; i < N; i++) {
-            arr[r][i] = (arr[r][i] + 1) % 2;
+            arr[r][i] ^= 1; // XOR 연산을 사용하여 0과 1을 뒤집음
         }
-        return arr;
     }
 
-    static int[][] changeC(int c, int[][] arr) {
+    // 열을 뒤집는 메서드
+    static void flipColumn(int[][] arr, int c) {
         for (int i = 0; i < N; i++) {
-            arr[i][c] = (arr[i][c] + 1) % 2;
+            arr[i][c] ^= 1; // XOR 연산을 사용하여 0과 1을 뒤집음
         }
-        return arr;
     }
 
-    static void dfs(int nowR, int nowC, Stack<Integer> R, Stack<Integer> C) {
-        if (nowC == N) {
-            int[][] now = new int[N][N];
-            for (int i=0; i<N; i++) {
-                now[i] = A[i].clone();
-            }
-            int cnt = 0;
-
-            for (int r : R) {
-                now = changeR(r, now);
-                cnt++;
-            }
-
-            for (int c : C) {
-                now = changeC(c, now);
-                cnt++;
-            }
-
-            result = Math.min(result, cnt + changeCount(now));
-            return;
-        }
-
-        if (nowR == N) {
-            C.add(nowC);
-            dfs(nowR, nowC+1, R, C);
-            C.pop();
-
-            dfs(nowR, nowC+1, R, C);
-
-            return;
-        }
-
-        R.push(nowR);
-        dfs(nowR+1, nowC, R, C);
-        R.pop();
-
-        dfs(nowR+1, nowC, R, C);
-    }
-
-    static int changeCount(int[][] arr) {
+    // 각 상태의 최소 뒤집기 횟수를 계산하는 메서드
+    static int calculateMinFlips(int[][] arr) {
         int countZero = 0, countOne = 0;
-        for (int i=0; i<N; i++) {
-            for (int j=0; j<N; j++) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
                 if (arr[i][j] == 0) {
                     countZero++;
                 } else {
@@ -72,6 +34,32 @@ public class Main {
             }
         }
         return Math.min(countZero, countOne);
+    }
+
+    // 조합을 찾는 메서드
+    static void findCombinations(int[][] arr, int rowMask, int colMask, int count) {
+        int[][] now = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            now[i] = arr[i].clone(); // 현재 상태 복사
+        }
+
+        // 행 뒤집기
+        for (int i = 0; i < N; i++) {
+            if ((rowMask & (1 << i)) != 0) {
+                flipRow(now, i);
+                count++;
+            }
+        }
+
+        // 열 뒤집기
+        for (int i = 0; i < N; i++) {
+            if ((colMask & (1 << i)) != 0) {
+                flipColumn(now, i);
+                count++;
+            }
+        }
+
+        result = Math.min(result, count + calculateMinFlips(now));
     }
 
     public static void main(String[] args) throws IOException {
@@ -85,7 +73,13 @@ public class Main {
                 A[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        dfs(0, 0, new Stack<>(), new Stack<>());
+
+        // 모든 조합을 찾기 위해 비트 마스크 사용
+        for (int rowMask = 0; rowMask < (1 << N); rowMask++) {
+            for (int colMask = 0; colMask < (1 << N); colMask++) {
+                findCombinations(A, rowMask, colMask, 0);
+            }
+        }
         System.out.println(result);
     }
 }
