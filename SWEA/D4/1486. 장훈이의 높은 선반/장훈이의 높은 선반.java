@@ -7,6 +7,9 @@ class Solution {
     static int[] H;
     
     public static void dfs(int level, int N, int B, int total) {
+        if (total-B >= result) {
+            return;
+        }
      	if (level == N) {
             if (total >= B) {
             	
