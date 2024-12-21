@@ -4,26 +4,24 @@ import java.util.*;
 public class Main {
 
     public static int L;
-    public static Set<String> set;
     public static boolean[] visited;
     public static String[] arr;
     public static StringBuilder sb;
 
     public static void dfs(int level, String now) {
-        if (set.contains(now)) {
-            return;
-        }
-        set.add(now);
         if (level == L) {
             sb.append(now).append("\n");
+            return;
         }
-        for (int i=0; i<L; i++) {
-            if (visited[i]) {
+        char lastUsed = '\0';  // 직전에 사용한 문자 저장
+        for (int i = 0; i < L; i++) {
+            if (visited[i] || arr[i].charAt(0) == lastUsed) {
                 continue;
             }
             visited[i] = true;
-            dfs(level+1, now+arr[i]);
+            dfs(level + 1, now + arr[i]);
             visited[i] = false;
+            lastUsed = arr[i].charAt(0);
         }
     }
 
@@ -34,7 +32,6 @@ public class Main {
         sb = new StringBuilder();
         for (int i=0; i<N; i++) {
             String word = br.readLine();
-            set = new HashSet<>();
             L = word.length();
             visited = new boolean[L];
             arr = new String[L];
