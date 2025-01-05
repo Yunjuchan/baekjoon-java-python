@@ -31,9 +31,13 @@ public class Main {
         for (int t=0; t<T; t++) {
             int result = Integer.MAX_VALUE;
             int K = Integer.parseInt(br.readLine());
+            boolean flag = false;
             for (int i=0; i<N; i++) {
-                if (primes.get(i) > Math.sqrt(K)+100) {
+                if (flag) {
                     break;
+                }
+                if (primes.get(i) > Math.sqrt(K)) {
+                    flag = true;
                 }
                 for (int j=i+1; j<N; j++) {
                     int tmp = primes.get(i) * primes.get(j);
