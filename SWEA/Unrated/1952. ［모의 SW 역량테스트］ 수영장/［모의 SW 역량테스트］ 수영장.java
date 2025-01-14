@@ -24,21 +24,10 @@ class Solution {
             dp[0] = Math.min(fee[0] * month[0], fee[1]);
             for (int i=1; i<12; i++) {
                 dp[i] = dp[i-1] + Math.min(fee[0] * month[i], fee[1]);
-            }
-            
-			if (dp[2] > fee[2]) {
-            	dp[2] = Math.min(dp[2], fee[2]);
-                for (int i=3; i<12; i++) {
-                        dp[i] = dp[i-1] + Math.min(fee[0] * month[i], fee[1]);
-                    }
-            }
-            
-            for (int i=3; i<12; i++) {
-                if (dp[i] > dp[i-3] + fee[2]) {
-                    dp[i] = dp[i-3] + fee[2];
-                    for (int j=i+1; j<12; j++) {
-                        dp[j] = dp[j-1] + Math.min(fee[0] * month[j], fee[1]);
-                    }
+                if (i>2) {
+                    dp[i] = Math.min(dp[i-3]+fee[2], dp[i]);
+                } else if (i == 2) {
+                    dp[i] = Math.min(dp[i], fee[2]);
                 }
             }
 
