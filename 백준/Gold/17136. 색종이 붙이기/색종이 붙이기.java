@@ -63,7 +63,7 @@ public class Main {
                     arr = fill(arr, i, j, n, 1);
                 }
             }
-            // 여기 return을 하고 말고의 차이가 무엇인지
+            // 종이에는 1이 없어야하므로 현재 칸을 덮지 못하면 더이상 탐색하지 않아야함
             return;
         }
     }
