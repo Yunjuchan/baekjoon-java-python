@@ -21,14 +21,16 @@ public class Main {
             map.get(num).add(name);
         }
 
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < M; i++) {
             long p = Long.parseLong(br.readLine());
-            map.putIfAbsent(p, new ArrayList<>());
-            System.out.print(map.get(p).size());
-            for (String name : map.get(p)) {
-                System.out.print(" " + name);
+            List<String> words = map.getOrDefault(p, Collections.emptyList());
+            sb.append(words.size());
+            for (String word : words) {
+                sb.append(" ").append(word);
             }
-            System.out.println();
+            sb.append("\n");
         }
+        System.out.print(sb);
     }
 }
