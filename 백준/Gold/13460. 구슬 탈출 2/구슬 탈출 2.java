@@ -25,6 +25,7 @@ public class Main {
         int M = Integer.parseInt(st.nextToken());
         char[][] arr = new char[N][M];
         int[][] position = new int[2][2];
+        boolean[][][][] visited = new boolean[N][M][N][M];
         for (int i = 0; i < N; i++) {
             String line = br.readLine();
             for (int j = 0; j < M; j++) {
@@ -39,7 +40,6 @@ public class Main {
                     position[1][1] = j;
                     arr[i][j] = '.';
                 }
-
             }
         }
 
@@ -48,6 +48,7 @@ public class Main {
 
         Queue<Status> que = new LinkedList<>();
         que.offer(new Status(0, position));
+        visited[position[0][0]][position[0][1]][position[1][0]][position[1][1]] = true;
         while (!que.isEmpty()) {
             Status status = que.poll();
 
@@ -145,10 +146,16 @@ public class Main {
                     continue;
                 }
 
-                que.offer(new Status(status.cnt + 1, nextPostion));
                 arr[nextPostion[0][0]][nextPostion[0][1]] = '.';
                 arr[nextPostion[1][0]][nextPostion[1][1]] = '.';
+                if (visited[nextPostion[0][0]][nextPostion[0][1]][nextPostion[1][0]][nextPostion[1][1]]) {
+                    continue;
+                }
+
+                visited[nextPostion[0][0]][nextPostion[0][1]][nextPostion[1][0]][nextPostion[1][1]] = true;
+                que.offer(new Status(status.cnt + 1, nextPostion));
             }
         }
+        System.out.println(-1);
     }
 }
