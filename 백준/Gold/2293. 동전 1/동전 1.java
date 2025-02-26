@@ -10,19 +10,13 @@ public class Main {
 
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
-        int[] arr = new int[N];
         int[] dp = new int[K + 1];
-
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
-        }
-
-//        Arrays.sort(arr);
 
         dp[0] = 1;
         for (int i = 0; i < N; i++) {
-            for (int j = arr[i]; j <= K; j++) {
-                dp[j] += dp[j - arr[i]];
+            int x = Integer.parseInt(br.readLine());
+            for (int j = x; j <= K; j++) {
+                dp[j] += dp[j - x];
             }
         }
 
