@@ -13,6 +13,7 @@ public class Main {
             long c = str.charAt(i) - 'a' + 1;
             long x = c * mul % MOD;
             answer += x;
+            answer %= MOD;
             mul *= 31;
             mul %= MOD;
         }
