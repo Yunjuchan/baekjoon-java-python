@@ -11,18 +11,28 @@ public class Main {
         int K = Integer.parseInt(st.nextToken());
 
         char[] lock = br.readLine().toCharArray();
-        for (int i = 0; i < N; i++) {
+        
+        for (int i = 0; i < N - 1; i++) {
             if (lock[i] == 'A') {
                 continue;
-            } else if (K > 'Z' - lock[i]) {
-                K -= 'Z' - lock[i] + 1;
+            }
+
+            int dist = 'Z' - lock[i] + 1;
+            if (K >= dist) {
+                K -= dist;
                 lock[i] = 'A';
+                if (K == 0) {
+                    break;
+                }
             }
         }
-        lock[N - 1] = (char) ((lock[N - 1] - 'A' + K) % 26 + 'A');
-        for (int i = 0; i < N; i++) {
-            System.out.print(lock[i]);
+        
+        K %= 26;
+        if (K != 0) {
+            int last = lock[N - 1] - 'A';
+            lock[N - 1] = (char) ((last + K) % 26 + 'A');
         }
-        System.out.println();
+        
+        System.out.println(new String(lock));
     }
 }
